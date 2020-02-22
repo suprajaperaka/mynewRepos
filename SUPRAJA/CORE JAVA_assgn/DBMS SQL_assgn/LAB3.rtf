@@ -1,0 +1,265 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\f0\fs40\lang9 3. JOINS AND SUBQUERIES\par
+
+\pard\sa200\sl276\slmult1\fs32 3.1:\b0\fs22\par
+ SELECT staff_name, d.dept_code, dept_name, staff_sal\par
+  2  FROM staff_Master s, department_Master d\par
+  3  WHERE s.dept_code = d.dept_code\par
+  4   AND staff_sal>20000;\par
+\par
+STAFF_NAME                                          DEPT_CODE\par
+-------------------------------------------------- ----------\par
+DEPT_NAME                                           STAFF_SAL\par
+-------------------------------------------------- ----------\par
+supraja                                                    12\par
+electronics                                             45000\par
+\par
+supraja                                                    12\par
+electronics                                             45000\par
+\par
+supraja                                                    12\par
+Assistant                                               45000\par
+\par
+\par
+STAFF_NAME                                          DEPT_CODE\par
+-------------------------------------------------- ----------\par
+DEPT_NAME                                           STAFF_SAL\par
+-------------------------------------------------- ----------\par
+purnima                                                    12\par
+electronics                                             50000\par
+\par
+purnima                                                    12\par
+electronics                                             50000\par
+\par
+purnima                                                    12\par
+Assistant                                               50000\par
+\par
+\par
+STAFF_NAME                                          DEPT_CODE\par
+-------------------------------------------------- ----------\par
+DEPT_NAME                                           STAFF_SAL\par
+-------------------------------------------------- ----------\par
+amira                                                      12\par
+electronics                                             25000\par
+\par
+amira                                                      12\par
+electronics                                             25000\par
+\par
+amira                                                      12\par
+Assistant                                               25000\par
+\par
+\par
+9 rows selected.\par
+\par
+\b\fs32 3.2:\par
+\b0\fs22  alter table department_Master\par
+  2  add mgr_name varchar(7);\par
+\par
+Table altered.\par
+ alter table department_Master\par
+  2  rename column mgr_no to mgr_code;\par
+\par
+Table altered.\par
+SQL> desc department_Master;\par
+ Name                                      Null?    Type\par
+ ----------------------------------------- -------- ----------------------------\par
+ DEPT_CODE                                 NOT NULL NUMBER(3)\par
+ DEPT_NAME                                          VARCHAR2(50)\par
+ MANAGERS_NO                                        NUMBER(38)\par
+ SALARY                                             NUMBER(38)\par
+ MGR_CODE                                           NUMBER(38)\par
+ MGR_NAME                                           VARCHAR2(7)\par
+insert into department_master values (2, 'electronics', 3, 24000, 3, 'sunil');\par
+\par
+1 row created.\par
+SQL> insert into staff_master values (2, 'supraja', 3, 4, ('12-jan-1999'), ('12-nov-1994'), 'Kalimandir', 3, 29000);\par
+\par
+1 row created.\par
+SQL> select staff_code as "staff#", staff_name as "staff", dept_name, d.mgr_code as "mgr#", mgr_name as "manager"\par
+  2  FROM staff_Master s, department_Master d\par
+  3  WHERE s.mgr_code = d.mgr_code;\par
+\par
+    staff# staff\par
+---------- --------------------------------------------------\par
+DEPT_NAME                                                mgr# manager\par
+-------------------------------------------------- ---------- -------\par
+         2 supraja\par
+electronics                                                 3 sunil\par
+\par
+\par
+\b\fs32 3.3:\par
+\b0\fs22 SQL> alter table book_transactions\par
+  2  add book_name varchar(8);\par
+\par
+Table altered.\par
+ Name                                      Null?    Type\par
+ ----------------------------------------- -------- ----------------------------\par
+ BOOK_CODE                                          NUMBER\par
+ STAFF_CODE                                         NUMBER\par
+ BOOK_ISSUE_DATE                           NOT NULL DATE\par
+ BOOK_EXPECTED_RETURN_DATE                 NOT NULL DATE\par
+ BOOK_ACTUAL_RETURN_DATE                            DATE\par
+ STUDENT_CODE                                       NUMBER(38)\par
+ BOOK_NAME                                          VARCHAR2(8)\par
+SQL> insert into Book_Transactions values(10, 23, ('12-jan-2020'), ('25-jan-2020'), ('24-jan-2020'), 3, 'physics');\par
+\par
+1 row created.\par
+SQL> insert into student_master values(3, 'harish', 4, ('10-jan-1999'), 'kalimandir');\par
+\par
+1 row created.\par
+\par
+SQL> Select b.student_code, student_name, book_code, book_name,  book_expected_return_date\par
+  2  FROM book_transactions b, student_master s\par
+  3  WHERE b.student_code=s.student_code and book_expected_return_date = ('25-jan-2020');\par
+\par
+STUDENT_CODE STUDENT_NAME\par
+ BOOK_CODE\par
+------------ -------------------------------------------------- ----------\par
+BOOK_NAM BOOK_EXPE\par
+-------- ---------\par
+           3 harish\par
+        10\par
+physics  25-JAN-20\par
+\par
+\b\fs32 3.4:\par
+\b0\fs22 SQL> alter table book_transactions\par
+  2  add dept_name varchar(7);\par
+\par
+Table altered.\par
+\par
+SQL> alter table book_transactions\par
+  2  add design_name varchar(8);\par
+\par
+Table altered.\par
+\par
+SQL> desc book_transactions;\par
+ Name                                      Null?    Type\par
+ ----------------------------------------- -------- ----------------------------\par
+ BOOK_CODE                                          NUMBER\par
+ STAFF_CODE                                         NUMBER\par
+ BOOK_ISSUE_DATE                           NOT NULL DATE\par
+ BOOK_EXPECTED_RETURN_DATE                 NOT NULL DATE\par
+ BOOK_ACTUAL_RETURN_DATE                            DATE\par
+ STUDENT_CODE                                       NUMBER(38)\par
+ BOOK_NAME                                          VARCHAR2(8)\par
+ DEPT_NAME                                          VARCHAR2(7)\par
+ DESIGN_NAME                                        VARCHAR2(8)\par
+SQL> insert into book_transactions values(2, 12, ('12-jan-2020'), ('25_jan-2020'), ('26-jan-2020'), 12, 'physics', 'ece', 'manager');\par
+\par
+1 row created.\par
+\par
+SQL> insert into staff_master values(12, 'supraja', 2, 3, ('12-jan-1996'), ('10-jan-1989'), 'kalimandir', 3, 34000);\par
+\par
+1 row created.\par
+\par
+SQL> SELECT b.staff_code, staff_name, dept_name, design_name, book_code, book_name, book_issue_date\par
+  2  from book_transactions b, staff_Master s\par
+  3  WHERE b. staff_code = s.staff_code and to_char(sysdate-book_issue_date)<30;\par
+\par
+STAFF_CODE STAFF_NAME                                         DEPT_NA DESIGN_N\par
+---------- -------------------------------------------------- ------- --------\par
+ BOOK_CODE BOOK_NAM BOOK_ISSU\par
+---------- -------- ---------\par
+        12 supraja                                            ece     manager\par
+         2 physics  12-JAN-20\par
+\par
+        12 supraja                                            ece     manager\par
+         2 physics  12-JAN-20\par
+\par
+\b\fs32 3.5:\par
+\b0\fs22 SQL> alter table Book_transactions\par
+  2  add book_fine int;\par
+\par
+Table altered.\par
+SQL>  insert into book_transactions values(2, 12, ('12-jan-2020'), ('20-jan-2020'), ('25-jan-2020'), 12, 'physics', 'ece', 'manager',5);\par
+\par
+1 row created.\par
+ SELECT b.staff_code, staff_name, design_name, dept_name, book_code, book_name, book_fine, 5*(sysdate-b.book_actual_return_date)\par
+  2  as book_fine\par
+  3  FROM staff_master s, book_transactions b\par
+  4  Where s.staff_code=b.staff_code;\par
+STAFF_CODE STAFF_NAME                                         DESIGN_N DEPT_NA\par
+---------- -------------------------------------------------- -------- -------\par
+ BOOK_CODE BOOK_NAM  BOOK_FINE  BOOK_FINE\par
+---------- -------- ---------- ----------\par
+        12 supraja                                            manager  ece\par
+         2 physics           5  -1.673669\par
+\par
+        12 supraja                                            manager  ece\par
+         2 physics           5  -1.673669\par
+\par
+        12 supraja                                            manager  ece\par
+         2 physics              -1.673669\par
+\b\fs32 3.7:\par
+\b0\fs22 > alter table book_transactions\par
+  2  add book_nos int;\par
+\par
+Table altered.\par
+\par
+SQL> desc book_transactions;\par
+ Name                                      Null?    Type\par
+ ----------------------------------------- -------- ----------------------------\par
+ BOOK_CODE                                          NUMBER\par
+ STAFF_CODE                                         NUMBER\par
+ BOOK_ISSUE_DATE                           NOT NULL DATE\par
+ BOOK_EXPECTED_RETURN_DATE                 NOT NULL DATE\par
+ BOOK_ACTUAL_RETURN_DATE                            DATE\par
+ STUDENT_CODE                                       NUMBER(38)\par
+ BOOK_NAME                                          VARCHAR2(8)\par
+ DEPT_NAME                                          VARCHAR2(7)\par
+ DESIGN_NAME                                        VARCHAR2(8)\par
+ BOOK_FINE                                          NUMBER(38)\par
+ BOOK_AUTHOR                                        VARCHAR2(20)\par
+ BOOK_NOS                                           NUMBER(38)\par
+\par
+SQL> insert into book_transactions values(2, 12, ('12-jan-2020'), ('20-jan-2020'), ('25-jan-2020'), 12, 'physics', 'ece', 'manager',5,'sharvanand', 4);\par
+\par
+1 row created.\par
+\par
+SQL> insert into book_transactions values(2, 12, ('12-jan-2020'), ('20-jan-2020'), ('25-jan-2020'), 12, 'physics', 'ece', 'manager',5,'annamacharya', 5);\par
+\par
+1 row created.\par
+\par
+SQL> SELECT book_author, book_name\par
+  2  From book_transactions\par
+  3  WHERE  book_nos >1;\par
+\par
+BOOK_AUTHOR          BOOK_NAM\par
+-------------------- --------\par
+sharvanand           physics\par
+annamacharya         physics\par
+\par
+\b\fs32 3.6:\b0\fs22\par
+SQL> SELECT staff_code, staff_sal\par
+  2  FROM staff_Master\par
+  3  WHERE staff_sal < ANY(SELECT AVG(staff_sal)\par
+  4  FROM staff_master GROUP BY dept_code);\par
+\par
+STAFF_CODE  STAFF_SAL\par
+---------- ----------\par
+        10      20000\par
+        10      20000\par
+        10      20000\par
+        10      20000\par
+        10      20000\par
+        10      20000\par
+        10      20000\par
+        10      20000\par
+         3      60000\par
+         4      80000\par
+         1       9000\par
+\par
+STAFF_CODE  STAFF_SAL\par
+---------- ----------\par
+        12      45000\par
+        13      50000\par
+        14      25000\par
+         2      29000\par
+        12      34000\par
+\par
+16 rows selected.\par
+\par
+\par
+}
+ 

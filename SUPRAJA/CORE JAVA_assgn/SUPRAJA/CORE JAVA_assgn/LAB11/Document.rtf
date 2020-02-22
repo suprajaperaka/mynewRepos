@@ -1,0 +1,386 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 lab 11\par
+\par
+package com.lab11.getting;\par
+\par
+import com.lab11.userinput.GettingUserinput;\par
+\par
+public interface Validation \{\par
+//public String namevalidation();\par
+public String mailvalidation();\par
+public String numbervalidation();\par
+//public void setCustomername(String name);\par
+//public void Tablevalidation(GettingUserinput ui);\par
+public void print();\par
+public String namevalidation(GettingUserinput gui);\par
+\}\par
+\par
+\par
+\par
+package com.lab11.getting;\par
+\par
+import java.util.regex.Pattern;\par
+\par
+import com.cg.eis.pl.Userinput;\par
+import com.lab11.userinput.GettingUserinput;\par
+\par
+import java.time.LocalDate;\par
+import java.util.regex.Matcher;\par
+//import org.hamcrest.Matcher;\par
+\par
+public class Tablevalidation implements Validation \{\par
+\tab public String customername;\par
+\tab public String email;\par
+\tab public String phoneno;\par
+\tab public GettingUserinput ui;\par
+\tab public Tablevalidation()\par
+\tab\{\par
+\tab\}\par
+\tab\par
+\tab public Tablevalidation(GettingUserinput ui)\par
+\tab\{\par
+\tab\tab this.ui=ui;\par
+\tab\}\par
+\tab\par
+\tab\par
+\tab\par
+\tab public String namevalidation(GettingUserinput ui)\par
+\tab\{\par
+\tab\tab customername=ui.getName();\par
+\tab\tab\tab customername=customername.replace(customername.charAt(0),Character.toUpperCase(customername.charAt(0)));\par
+\tab\tab\par
+\tab\tab return customername;\par
+\tab\}\par
+\tab\par
+\tab\par
+\tab\par
+\tab public String mailvalidation()\par
+\tab\{\par
+\tab\tab String regex = "^(.+)@(.+)$";\par
+\tab\tab email =ui.email;\par
+\tab\tab Pattern pattern = Pattern.compile(regex);\par
+\tab\tab Matcher match=pattern.matcher(regex);\par
+\tab\tab if(match.matches()==true)\par
+\tab\tab\{\par
+\tab\tab return email;\par
+\tab\tab\}\par
+\tab\tab else\par
+\tab\tab\tab return "error";\par
+\tab\}\par
+\tab public String numbervalidation()\par
+\tab\{\par
+\tab\tab phoneno=ui.pno;\par
+\tab\tab if(phoneno.length()==10)\par
+\tab\tab return phoneno;\par
+\tab\tab else\par
+\tab\tab\tab return "error";\par
+\tab\}\par
+\tab public LocalDate Enteringdate()\par
+\tab\{\par
+\tab\tab return LocalDate.now();\par
+\tab\}\par
+\tab\par
+\tab public static void main(String[] args)\par
+\tab\{\par
+\tab\tab  GettingUserinput ui=new GettingUserinput() ;\par
+\tab\tab Tablevalidation tv= new Tablevalidation(ui);\par
+\tab\tab tv.namevalidation(ui);\par
+\tab\tab System.out.println(ui.getName());\par
+\tab\tab /*System.out.println(tv.mailvalidation());\par
+\tab\tab System.out.println(tv.numbervalidation());\par
+\tab\tab System.out.println(tv.Enteringdate());*/\par
+\tab\tab /*public String getEmail() \{\par
+\tab\tab return email;\par
+\tab\}\par
+\tab public void setEmail(String email) \{\par
+\tab\tab this.email = email;\par
+\tab\}\par
+\tab public String getPhoneno() \{\par
+\tab\tab return phoneno;\par
+\tab\}\par
+\tab public void setPhoneno(String phoneno) \{\par
+\tab\tab this.phoneno = phoneno;\}*/\par
+\tab\}\par
+\}\par
+\par
+\par
+Skip to content\par
+Using Gmail with screen readers\par
+\par
+Fwd: lab 11\par
+Inbox\par
+x\par
+\par
+peraka supraja\par
+Attachments09:05 (34 minutes ago)\par
+---------- Forwarded message --------- From: madhuri reddy <madhurireddy576@gmail.com> Date: Wed, 12 Feb, 2020, 9:07 PM Subject: Fwd: lab 11 To: <perakasupraja9\par
+\par
+Tummala Mounisha <tummalamounisha99@gmail.com>\par
+Attachments\par
+09:06 (33 minutes ago)\par
+to ananthasreeja202\par
+\par
+\par
+4 Attachments\par
+\par
+package Lab11;\par
+\par
+import java.io.FileInputStream;\par
+import java.io.IOException;\par
+import java.sql.Connection;\par
+import java.sql.Date;\par
+import java.sql.PreparedStatement;\par
+import java.sql.SQLException;\par
+import java.time.LocalDate;\par
+import java.util.Properties;\par
+\par
+import javax.activation.DataSource;\par
+\par
+import com.lab11.getting.Tablevalidation;\par
+import com.lab11.getting.Validation;\par
+import com.lab11.userinput.GettingUserinput;\par
+\par
+import Lab11properties.MobileProps;\par
+import oracle.jdbc.pool.OracleDataSource;\par
+\par
+public class Generaldatasource \{\par
+\tab public OracleDataSource ods=null;\par
+\tab public Connection con=null;\par
+\tab public int purchaseid;\par
+\tab public String cname;\par
+\tab public String mailid;\par
+\tab public String phoneno;\par
+\tab public LocalDate date;\par
+\tab public int mobileid;\par
+\tab public Generaldatasource( int purchaseid,String cname,String mailid,String phoneno,LocalDate date,int mobileid)\par
+\tab\{\par
+\tab\tab this.cname=cname;\par
+\tab\tab this.purchaseid=purchaseid;\par
+\tab\tab this.mailid=mailid;\par
+\tab\tab this.phoneno=phoneno;\par
+\tab\tab this.date=date;\par
+\tab\tab this.mobileid=mobileid;\par
+\tab\tab\par
+\tab\}\par
+\tab public OracleDataSource datsrc(Properties p)\par
+\tab\{\par
+\tab\tab FileInputStream fis=null;\par
+\tab\tab //MobileProps mp=new MobileProps();\par
+\tab\tab try\par
+\tab\tab\{\par
+\tab\tab OracleDataSource ods=new OracleDataSource();\par
+\tab\tab //throw new SQLException();\par
+\tab\tab try\par
+\tab\tab\{\par
+\tab\tab fis=new FileInputStream("Example.properties");\par
+\tab\tab p.load(fis);\par
+\tab\tab\}\par
+\tab\tab\par
+\tab\tab catch(IOException e)\par
+\tab\tab\{\par
+\tab\tab\tab e.printStackTrace();\par
+\tab\tab\}\par
+\tab\tab\par
+\tab\tab\par
+\tab\tab ods.setURL(p.getProperty("url"));// or ods.setURL(por.getProperty())\par
+\tab\tab\par
+\tab\tab ods.setUser(p.getProperty("user"));\par
+\tab\tab ods.setPassword(p.getProperty("password"));\par
+\tab\tab ods.setDriverType(p.getProperty("driver"));\par
+\tab\tab ods.setNetworkProtocol("tcp");\par
+\tab\tab  con=ods.getConnection("srujana","Srujana17");\par
+\tab\tab System.out.println("connection established");\par
+\tab\tab PreparedStatement pstmt=con.prepareStatement("insert into purchasingdetails values(?,?,?,?,?,?)");\par
+\tab\tab pstmt.setInt(1,purchaseid);\par
+\tab\tab pstmt.setString(2, cname);\par
+\tab\tab pstmt.setString(3,mailid);\par
+\tab\tab pstmt.setString(4,phoneno);\par
+\tab\tab pstmt.setDate(5,Date.valueOf(date));\par
+\tab\tab pstmt.setInt(6, mobileid);\par
+\tab\tab int count=pstmt.executeUpdate();\par
+\tab\tab System.out.println("updated successfully"+count +" row(s)");\par
+\tab\tab PreparedStatement pstmt1=con.prepareStatement("update  mobile set quantity=quantity-1 where  mobileid=? ");\par
+\tab\tab\par
+\tab\tab pstmt1.setInt(1, mobileid);\par
+\tab\tab int count1=pstmt1.executeUpdate();\par
+\tab\tab System.out.println("changed"+count);\par
+\tab\tab return ods;\par
+\tab\tab\}\par
+\tab\tab catch(SQLException s)\par
+\tab\tab\{\par
+\tab\tab\tab s.printStackTrace();\par
+\tab\tab\}\par
+\tab\tab /*finally\par
+\tab\tab\{\par
+\tab\tab\tab\par
+\tab\tab\}*/\par
+\tab\tab return ods;\par
+\tab\tab\par
+\tab\tab\par
+\tab\}\par
+\tab /*public  void Inserting(int purchaseid,String cname,String mailid,String phoneno,LocalDate date,int mobileid)\par
+\tab\{\par
+\tab\tab try\par
+\tab\tab\{\par
+\tab\tab PreparedStatement pstmt=con.prepareStatement("insert into purchasingdetails values(?,?,?,?,?,?)");\par
+\tab\tab pstmt.setInt(1,purchaseid);\par
+\tab\tab pstmt.setString(2, cname);\par
+\tab\tab pstmt.setString(3,mailid);\par
+\tab\tab pstmt.setString(4,phoneno);\par
+\tab\tab pstmt.setDate(5,Date.valueOf(date));\par
+\tab\tab pstmt.setInt(6, mobileid);\par
+\tab\tab int count=pstmt.executeUpdate();\par
+\tab\tab System.out.println("updated successfully   "+count +" row(s)");\par
+\tab\tab\}\par
+\tab\tab catch(SQLException s)\par
+\tab\tab\{\par
+\tab\tab\tab s.printStackTrace();\par
+\tab\tab\}\par
+\tab\}*/\par
+\tab\par
+public static void main(String[] args)\par
+\{\par
+\tab Validation tbv=new Tablevalidation();\par
+\tab GettingUserinput gui=new GettingUserinput();\par
+\tab  String cname=tbv.namevalidation(gui);\par
+\tab  String email=tbv.mailvalidation();\par
+\tab  String pno=tbv.numbervalidation();\par
+\tab  System.out.println(cname);\par
+\tab  //Generaldatasource gds=new  Generaldatasource(1234,cname,email,pno,LocalDate.now(),1001);\par
+\tab  //gds.datsrc(new Properties());\par
+\tab  \par
+\tab\par
+\tab\}\par
+\par
+\}\par
+\par
+\par
+\par
+/* Generaldatasource gds=new  Generaldatasource();\par
+Properties por=new Properties();\par
+OracleDataSource odsc= gds.datsrc(por);\par
+try\par
+\{\par
+\par
+\}\par
+catch(SQLException e)\par
+\{\par
+\tab e.printStackTrace();\par
+\tab create table purchaseddetails(purchaseid NUMBER, cname vARCHAR2(20), mailid  VARCHAR2(30),phoneno VARCHAR2(20), purchasedate DATE, mobileid references mobile(mobileid)) "\par
+\}\par
+\par
+\par
+Skip to content\par
+Using Gmail with screen readers\par
+\par
+Fwd: lab 11\par
+Inbox\par
+x\par
+\par
+peraka supraja\par
+Attachments09:05 (35 minutes ago)\par
+---------- Forwarded message --------- From: madhuri reddy <madhurireddy576@gmail.com> Date: Wed, 12 Feb, 2020, 9:07 PM Subject: Fwd: lab 11 To: <perakasupraja9\par
+\par
+Tummala Mounisha <tummalamounisha99@gmail.com>\par
+Attachments\par
+09:06 (34 minutes ago)\par
+to ananthasreeja202\par
+\par
+\par
+4 Attachments\par
+\par
+package Lab11;\par
+\par
+import java.io.FileInputStream;\par
+\par
+import java.io.IOException;\par
+import java.util.Properties;\par
+//import Lab11.MobileProps;\par
+\par
+import Lab11properties.MobileProps;\par
+import oracle.jdbc.pool.OracleDataSource;\par
+\par
+import java.sql.*;\par
+import java.time.LocalDate;\par
+\tab\par
+public class Creatingmobiledatasource \{\par
+\tab\par
+\tab public static void main(String[] args) \par
+\tab\{\par
+\tab\tab FileInputStream fis=null;\par
+\tab\tab MobileProps p=new MobileProps();\par
+\tab\tab Properties por=new Properties();\par
+\tab\tab\par
+\tab\tab try\par
+\tab\tab\{\par
+\tab\tab OracleDataSource ods=new OracleDataSource();\par
+\tab\tab try\par
+\tab\tab\{\par
+\tab\tab fis=new FileInputStream("Example.properties");\par
+\tab\tab por.load(fis);\par
+\tab\tab\}\par
+\tab\tab catch(IOException e)\par
+\tab\tab\{\par
+\tab\tab\tab e.printStackTrace();\par
+\tab\tab\}\par
+\tab\tab ods.setURL(p.getsproperty(por));// or ods.setURL(por.getProperty())\par
+\tab\tab //ods.setUser("srujana");\par
+\tab\tab ods.setUser(por.getProperty("user"));\par
+\tab\tab ods.setPassword(por.getProperty("password"));\par
+\tab\tab ods.setDriverType(por.getProperty("driver"));\par
+\tab\tab ods.setNetworkProtocol("tcp");\par
+\tab\tab\par
+\tab\tab /*ods.setURL("jdbc:oracle:thin:@localhost:1521:XE");\par
+\tab\tab ods.setUser("srujana");\par
+\tab\tab ods.setPassword("Srujana17");\par
+\tab\tab ods.setDriverType("thin");\par
+\tab\tab ods.setNetworkProtocol("tcp");\par
+\tab\tab */\par
+\tab\tab /*public void puts(int purchaseid,String mailid, String phoneno,LocalDate purchasedate,int mobileid)\par
+\tab\tab\{\par
+\tab\tab\tab PreparedStatement psmt=conn.prepareStatement("insert into purchasingdetails values(?,?,?,?,?,?)");\par
+\tab\tab\tab ods.setInt(1,purchaseid);\par
+\tab\tab\}*/\par
+\tab\tab\par
+\tab\tab\par
+\tab\tab\par
+\tab\tab\par
+\tab\tab\par
+\tab\tab\par
+\tab\tab System.out.println("datasourcreated");\par
+\tab\tab Connection conn=ods.getConnection("srujana","Srujana17");\par
+\tab\tab Statement s=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);\par
+\tab\tab //ResultSet rset=s.executeQuery("create table purchaseddetails(purchaseid NUMBER, cname vARCHAR2(20), mailid  VARCHAR2(30),phoneno VARCHAR2(20), purchasedate DATE, mobileid references mobile(mobileid)) ");\par
+\tab\tab //PreparedStatement psmt=conn.prepareStatement("insert into purchaseddetails values(?,?,?,?,?,?)");\par
+\tab\tab //ResultSet rset2=s.executeQuery("CREATE TABLE mobile (mobileid NUMBER PRIMARY KEY, name VARCHAR2 (20), price NUMBER(10,2),quantity VARCHAR2(20))");\par
+\tab\tab /*ResultSet rset3=s.executeQuery("insert into mobile values(1001,'nokia lumia 520',8000,20)");\par
+\tab\tab ResultSet rset4=s.executeQuery("insert into mobile values(1002,'Samsung galaxy IV',38000,40)");\par
+\tab\tab ResultSet rset5=s.executeQuery("insert into mobile values(1003,'Sony xperia C',15000,30)");\par
+\tab\tab */\par
+\tab\tab //ResultSet rset2=s.executeQuery("insert into purchaseddetails values(1256,'jod','jod@gmail.com','789876123',to_date('01-04-2019','dd-mm-yyyy'),1002)");\par
+\tab\tab //PrepStatement psmt=conn.prepareStatement("insert into purchasingdetails(mobileid) values(1001)");\par
+\tab\tab //ResultSet rset2=s.executeQuery("insert into purchasingdetails values(1256,'jod','jod@gmail.com','789876123',to_date('01-04-2019','dd-mm-yyyy'),1003)");\par
+\tab\tab //ResultSet rs2=s.executeQuery("update purchasingdetails set mobileid=1001 where cname='jop'");\par
+\tab\tab //ResultSet r=s.executeQuery("select * from mobile");\par
+\tab\tab System.out.println("purchaseid"+"  "+"cname"+" "+"mailid"+" "+" "+"phoneno"+"      "+"dob"+"            "+"mobileid");\par
+\tab\tab ResultSet rs=s.executeQuery("select * from purchasingdetails");\par
+\tab\tab /*while(r.next())\par
+\tab\tab\{\par
+\tab\tab\tab System.out.println(r.getInt("mobileid")+" "+r.getString("name")+" "+r.getDouble("price")+" "+r.getString("quantity")+" ");\par
+\tab\tab\}*/\par
+\tab\tab while(rs.next())\par
+\tab\tab\{\par
+\tab\tab\tab System.out.println(rs.getInt("purchaseid")+"      "+rs.getString("cname")+"  "+rs.getString("mailid")+"  "+rs.getString("phoneno")+"  "+" "+rs.getDate("purchasedate")+"   "+rs.getInt("mobileid"));\par
+\tab\tab\}\par
+\tab\tab\}\par
+\tab\tab catch(SQLException s)\par
+\tab\tab\{\par
+\tab\tab\tab s.printStackTrace();\par
+\tab\tab\}\par
+\tab\tab\par
+\tab\}\tab\par
+\par
+\}\par
+}
+ 
